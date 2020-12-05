@@ -8,9 +8,8 @@
 
     public static class BaseProgram
     {
-        public static IServiceCollection ConfigureServices()
+        public static IServiceCollection ConfigureServices(IServiceCollection services)
         {
-            var services = new ServiceCollection();
             services.AddAdventOfCodeHttpClient();
             services.RegisterAllTypes<BaseProblem>(Assembly.GetEntryAssembly()!);
             services.AddSingleton<Solver>();
@@ -22,8 +21,12 @@
             return services.BuildServiceProvider();
         }
 
-        public static async Task RunSolver(string[] args, Solver solver)
+        public static async Task RunSolver(string[] args, IServiceCollection services)
         {
+            ConfigureServices(services);
+            ServiceProvider serviceProvider = BuildServiceProvider(services);
+            var solver = serviceProvider.GetRequiredService<Solver>();
+
             var all = false;
             switch (args.Length)
             {
