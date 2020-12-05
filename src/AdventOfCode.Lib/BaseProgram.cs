@@ -16,10 +16,7 @@
             return services;
         }
 
-        public static ServiceProvider BuildServiceProvider(IServiceCollection services)
-        {
-            return services.BuildServiceProvider();
-        }
+        public static ServiceProvider BuildServiceProvider(IServiceCollection services) => services.BuildServiceProvider();
 
         public static async Task RunSolver(string[] args, IServiceCollection services)
         {

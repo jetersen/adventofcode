@@ -17,14 +17,11 @@
         {
         }
 
-        public override async Task LoadInput()
-        {
-            _input = (await File.ReadAllLinesAsync(InputFilePath)).ToList();
-        }
+        public override async Task LoadInput() => _input = (await File.ReadAllLinesAsync(InputFilePath)).ToList();
 
         public static (string password, PasswordPolicy policy) ParseInput(string input)
         {
-            var match = Regex.Match(input);
+            Match? match = Regex.Match(input);
 
             return (
                 match.GetGroupValue("password"),
@@ -35,16 +32,16 @@
                 ));
         }
 
-        public override string Solve_1() =>
-            _input.Select(ParseInput)
-                .Count(x => IsPasswordValid(x.password, x.policy))
-                .ToString();
+        public override string Solve_1() => _input
+            .Select(ParseInput)
+            .Count(x => IsPasswordValid(x.password, x.policy))
+            .ToString();
 
 
-        public override string Solve_2() =>
-            _input.Select(ParseInput)
-                .Count(x => IsPasswordValid2(x.password, x.policy))
-                .ToString();
+        public override string Solve_2() => _input
+            .Select(ParseInput)
+            .Count(x => IsPasswordValid2(x.password, x.policy))
+            .ToString();
 
         private static bool IsPasswordValid(string password, PasswordPolicy policy)
         {
@@ -53,7 +50,7 @@
         }
 
         private static bool IsPasswordValid2(string password, PasswordPolicy policy) =>
-            password[policy.Min - 1] == policy.Char ^ password[policy.Max - 1] == policy.Char;
+            (password[policy.Min - 1] == policy.Char) ^ (password[policy.Max - 1] == policy.Char);
     }
 
     public record PasswordPolicy(char Char, int Min, int Max);

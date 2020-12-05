@@ -95,8 +95,8 @@
             await problem.FetchInput();
             await problem.LoadInput();
 
-            (string solution1, double elapsedMillisecondsPart1) = SolvePart(isPart1: true, problem);
-            (string solution2, double elapsedMillisecondsPart2) = SolvePart(isPart1: false, problem);
+            var (solution1, elapsedMillisecondsPart1) = SolvePart(true, problem);
+            var (solution2, elapsedMillisecondsPart2) = SolvePart(false, problem);
 
             _rows.Add(new Row(problemTitle, 1, solution1, elapsedMillisecondsPart1));
             _rows.Add(new Row(problemTitle, 2, solution2, elapsedMillisecondsPart2));
@@ -164,7 +164,7 @@
 
             if (useColor == false) return message;
 
-            var color = elapsedMilliseconds switch
+            Color color = elapsedMilliseconds switch
             {
                 < 1 => Color.Blue,
                 < 10 => Color.Green1,
@@ -172,7 +172,7 @@
                 < 500 => Color.GreenYellow,
                 < 1_000 => Color.Yellow1,
                 < 10_000 => Color.OrangeRed1,
-                _ => Color.Red1
+                _ => Color.Red1,
             };
 
             return $"[{color}]{message}[/]";
@@ -196,13 +196,9 @@
             if (IsInteractiveEnvironment)
             {
                 if (clearConsole)
-                {
                     Console.Clear();
-                }
                 else
-                {
                     AnsiConsole.Console.Clear(true);
-                }
             }
 
             AnsiConsole.Render(table);
@@ -218,9 +214,9 @@
                 .AddColumn(new GridColumn().NoWrap().PadRight(4))
                 .AddColumn()
                 .AddRow()
-                .AddRow($"Total ({_totalElapsedTime.Count} days)", FormatTime(total, useColor: false))
-                .AddRow("Total parts 1", FormatTime(totalPart1, useColor: false))
-                .AddRow("Total parts 2", FormatTime(totalPart2, useColor: false))
+                .AddRow($"Total ({_totalElapsedTime.Count} days)", FormatTime(total, false))
+                .AddRow("Total parts 1", FormatTime(totalPart1, false))
+                .AddRow("Total parts 2", FormatTime(totalPart2, false))
                 .AddRow()
                 .AddRow("Mean  (per day)", FormatTime(total / _totalElapsedTime.Count))
                 .AddRow("Mean  parts 1", FormatTime(_totalElapsedTime.Select(t => t.part1).Average()))

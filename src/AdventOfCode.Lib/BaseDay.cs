@@ -21,6 +21,7 @@
         public override uint CalculateIndex()
         {
             if (Day == 0) Day = base.CalculateIndex();
+
             if (Year != 0) return Day;
 
             var ns = GetType().Namespace ?? string.Empty;

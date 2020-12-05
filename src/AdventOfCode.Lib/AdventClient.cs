@@ -18,8 +18,10 @@
         public async Task FetchInput(uint year, uint day, string path)
         {
             if (File.Exists(path)) return;
+
             var directory = Path.GetDirectoryName(path) ?? string.Empty;
             if (Directory.Exists(directory) == false) Directory.CreateDirectory(directory);
+
             var stream = await _client.GetStreamAsync(InputUrl(year, day));
             await using var fileStream = File.Create(path);
             await stream.CopyToAsync(fileStream);

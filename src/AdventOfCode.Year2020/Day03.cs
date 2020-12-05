@@ -15,18 +15,16 @@
         {
         }
 
-        public override async Task LoadInput()
-        {
-            _input = (await File.ReadAllLinesAsync(InputFilePath)).ToList();
-        }
+        public override async Task LoadInput() => _input = (await File.ReadAllLinesAsync(InputFilePath)).ToList();
 
         public override string Solve_1() => TransverseMap(
                 new[] {(x: 3, y: 1)},
                 ch => ch == '#')
-            .Single().ToString();
+            .Single()
+            .ToString();
 
         public override string Solve_2() => TransverseMap(
-                new[] {(x: 1, y: 1), (x: 3, y: 1), (x: 5, y: 1), (x: 7, y: 1), (x: 1, y: 2),},
+                new[] {(x: 1, y: 1), (x: 3, y: 1), (x: 5, y: 1), (x: 7, y: 1), (x: 1, y: 2)},
                 ch => ch == '#')
             .Aggregate(1L, (total, n) => total * n)
             .ToString();
@@ -39,13 +37,15 @@
             for (var level = 1; level < _input.Count; ++level)
             {
                 var mapLine = _input[level];
-                foreach (var slope in slopes)
+                foreach ((int x, int y) slope in slopes)
                 {
                     if (level % slope.y != 0) continue;
+
                     var y = level / slope.y;
-                    var x = (y * slope.x) % mapLine.Length;
+                    var x = y * slope.x % mapLine.Length;
 
                     if (!predicate.Invoke(mapLine[x])) continue;
+
                     ++matches[slope];
                 }
             }

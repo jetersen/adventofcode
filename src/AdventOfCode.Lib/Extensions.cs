@@ -18,13 +18,11 @@
                 services.Add(serviceDescriptor);
         }
 
-        public static void AddAdventOfCodeHttpClient(this IServiceCollection services)
-        {
+        public static void AddAdventOfCodeHttpClient(this IServiceCollection services) =>
             services.AddHttpClient<AdventClient>(c =>
             {
                 c.BaseAddress = new Uri(Constants.Endpoint);
                 c.DefaultRequestHeaders.Add("Cookie", $"session={Constants.SessionCookie}");
             });
-        }
     }
 }
