@@ -7,6 +7,11 @@
     using System.Linq;
     using System.Threading.Tasks;
 
+    /// <summary>
+    /// Derivative work of https://github.com/eduherminio/AoCHelper
+    /// The main difference is Solver remains non static and allows for dependency injection and is asynchronous.
+    /// One is expected to call the Render methods to get the output which is where BaseProgram helps.
+    /// </summary>
     public class Solver
     {
         private readonly IEnumerable<BaseProblem> _baseProblems;
