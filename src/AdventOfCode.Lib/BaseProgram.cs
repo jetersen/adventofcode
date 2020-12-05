@@ -6,7 +6,7 @@
     using System.Reflection;
     using System.Threading.Tasks;
 
-    public abstract class BaseProgram
+    public static class BaseProgram
     {
         public static IServiceCollection ConfigureServices()
         {
