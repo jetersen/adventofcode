@@ -1,7 +1,7 @@
-﻿using System.Threading.Tasks;
-
-namespace AdventOfCode.Lib
+﻿namespace AdventOfCode.Lib
 {
+    using System.Threading.Tasks;
+
     public abstract class BaseDay : BaseProblem
     {
         private readonly AdventClient _client;

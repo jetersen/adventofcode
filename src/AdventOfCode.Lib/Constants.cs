@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace AdventOfCode.Lib
+﻿namespace AdventOfCode.Lib
 {
+    using System;
+
     public static class Constants
     {
         public const string Endpoint = "https://adventofcode.com/";

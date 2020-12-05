@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Spectre.Console;
-
-namespace AdventOfCode.Lib
+﻿namespace AdventOfCode.Lib
 {
+    using Spectre.Console;
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Linq;
+    using System.Threading.Tasks;
+
     public class Solver
     {
         private readonly IEnumerable<BaseProblem> _baseProblems;

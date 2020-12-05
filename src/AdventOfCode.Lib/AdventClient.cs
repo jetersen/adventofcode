@@ -1,9 +1,9 @@
-﻿using System.IO;
-using System.Net.Http;
-using System.Threading.Tasks;
-
-namespace AdventOfCode.Lib
+﻿namespace AdventOfCode.Lib
 {
+    using System.IO;
+    using System.Net.Http;
+    using System.Threading.Tasks;
+
     public class AdventClient
     {
         private readonly HttpClient _client;

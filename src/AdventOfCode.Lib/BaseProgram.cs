@@ -1,10 +1,11 @@
-﻿using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
-
-namespace AdventOfCode.Lib
+﻿namespace AdventOfCode.Lib
 {
+    using Microsoft.Extensions.DependencyInjection;
+    using System;
+    using System.Linq;
+    using System.Reflection;
+    using System.Threading.Tasks;
+
     public abstract class BaseProgram
     {
         public static IServiceCollection ConfigureServices()
@@ -31,7 +32,7 @@ namespace AdventOfCode.Lib
                     await solver.SolveLast();
                     break;
                 // dotnet run all | dotnet run --all
-                case 1 when args[0].Contains("all", System.StringComparison.CurrentCultureIgnoreCase):
+                case 1 when args[0].Contains("all", StringComparison.CurrentCultureIgnoreCase):
                     all = true;
                     await Task.WhenAll(solver.SolveAll());
                     break;

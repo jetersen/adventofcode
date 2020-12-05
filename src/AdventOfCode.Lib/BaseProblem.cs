@@ -1,9 +1,9 @@
-﻿using System;
-using System.IO;
-using System.Threading.Tasks;
-
-namespace AdventOfCode.Lib
+﻿namespace AdventOfCode.Lib
 {
+    using System;
+    using System.IO;
+    using System.Threading.Tasks;
+
     public abstract class BaseProblem
     {
         protected virtual string ClassPrefix { get; } = "Problem";

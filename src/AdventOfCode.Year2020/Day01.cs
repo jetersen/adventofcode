@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using AdventOfCode.Lib;
-
-namespace AdventOfCode.Year2020
+﻿namespace AdventOfCode.Year2020
 {
+    using Lib;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Threading.Tasks;
+
     public sealed class Day01 : BaseDay
     {
         private List<int> _input = new();

@@ -1,8 +1,8 @@
-﻿using System;
-using System.Text.RegularExpressions;
-
-namespace AdventOfCode.Year2020
+﻿namespace AdventOfCode.Year2020
 {
+    using System;
+    using System.Text.RegularExpressions;
+
     public static class Extensions
     {
         public static string GetGroupValue(this Match match, int captureId)

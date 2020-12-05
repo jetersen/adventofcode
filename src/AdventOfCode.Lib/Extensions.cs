@@ -1,13 +1,9 @@
-﻿using System;
-using System.Diagnostics;
-using System.Linq;
-using System.Reflection;
-using Microsoft.Extensions.DependencyInjection;
-using Spectre.Console;
-
-namespace AdventOfCode.Lib
+﻿namespace AdventOfCode.Lib
 {
-    using System.Collections.Generic;
+    using Microsoft.Extensions.DependencyInjection;
+    using System;
+    using System.Linq;
+    using System.Reflection;
 
     public static class Extensions
     {

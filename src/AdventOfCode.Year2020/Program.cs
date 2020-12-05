@@ -1,11 +1,9 @@
-﻿using System;
-using System.Reflection;
-using System.Threading.Tasks;
-using AdventOfCode.Lib;
-using Microsoft.Extensions.DependencyInjection;
-
-namespace AdventOfCode.Year2020
+﻿namespace AdventOfCode.Year2020
 {
+    using Lib;
+    using Microsoft.Extensions.DependencyInjection;
+    using System.Threading.Tasks;
+
     public class Program : BaseProgram
     {
         public static async Task Main(string[] args)
