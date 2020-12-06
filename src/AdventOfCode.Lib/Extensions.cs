@@ -19,7 +19,7 @@
         }
 
         public static void AddAdventOfCodeHttpClient(this IServiceCollection services) =>
-            services.AddHttpClient<AdventClient>(c =>
+            services.AddHttpClient<IAdventClient, AdventClient>(c =>
             {
                 c.BaseAddress = new Uri(Constants.Endpoint);
                 c.DefaultRequestHeaders.Add("Cookie", $"session={Constants.SessionCookie}");

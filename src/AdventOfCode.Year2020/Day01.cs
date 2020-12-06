@@ -10,7 +10,7 @@
     {
         private List<int> _input = new();
 
-        public Day01(AdventClient client) : base(client)
+        public Day01(IAdventClient client) : base(client)
         {
         }
 

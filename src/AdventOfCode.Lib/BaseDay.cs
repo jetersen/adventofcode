@@ -4,9 +4,9 @@
 
     public abstract class BaseDay : BaseProblem
     {
-        private readonly AdventClient _client;
+        private readonly IAdventClient _client;
 
-        protected BaseDay(AdventClient client)
+        protected BaseDay(IAdventClient client)
         {
             _client = client;
         }

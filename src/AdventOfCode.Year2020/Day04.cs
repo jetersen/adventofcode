@@ -11,7 +11,7 @@
     {
         private List<Dictionary<string, string>> _input = new();
 
-        public Day04(AdventClient client) : base(client)
+        public Day04(IAdventClient client) : base(client)
         {
         }
 

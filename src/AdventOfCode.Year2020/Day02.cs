@@ -13,7 +13,7 @@
 
         private static readonly Regex Regex = new(@"(?<min>\d+)-(?<max>\d+) (?<character>\w): (?<password>\w+)");
 
-        public Day02(AdventClient client) : base(client)
+        public Day02(IAdventClient client) : base(client)
         {
         }
 

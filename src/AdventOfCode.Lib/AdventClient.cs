@@ -4,7 +4,12 @@
     using System.Net.Http;
     using System.Threading.Tasks;
 
-    public class AdventClient
+    public interface IAdventClient
+    {
+        Task FetchInput(uint year, uint day, string path);
+    }
+
+    public class AdventClient : IAdventClient
     {
         private readonly HttpClient _client;
 
