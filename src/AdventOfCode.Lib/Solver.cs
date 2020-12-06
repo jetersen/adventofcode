@@ -17,6 +17,7 @@
         private readonly IEnumerable<BaseProblem> _baseProblems;
         private readonly List<Row> _rows = new();
         private readonly List<(double part1, double part2)> _totalElapsedTime = new();
+        private readonly List<double> _totalElapsedLoadTime = new();
 
         public Solver(IEnumerable<BaseProblem> baseProblems)
         {
@@ -97,8 +98,7 @@
                 ? $"Day {problemIndex}"
                 : $"{problem.GetType().Name}";
 
-            await problem.FetchInput();
-            await problem.LoadInput();
+            await LoadInput(problem);
 
             var (solution1, elapsedMillisecondsPart1) = SolvePart(true, problem);
             var (solution2, elapsedMillisecondsPart2) = SolvePart(false, problem);
@@ -138,6 +138,16 @@
 
             var elapsedMilliseconds = CalculateElapsedMilliseconds(stopwatch);
             return (solution, elapsedMilliseconds);
+        }
+
+        private async Task LoadInput(BaseProblem problem)
+        {
+            var stopwatch = Stopwatch.StartNew();
+            await problem.FetchInput();
+            await problem.LoadInput();
+            stopwatch.Stop();
+            var elapsedMilliseconds = CalculateElapsedMilliseconds(stopwatch);
+            _totalElapsedLoadTime.Add(elapsedMilliseconds);
         }
 
         /// <summary>
@@ -222,10 +232,12 @@
                 .AddRow($"Total ({_totalElapsedTime.Count} days)", FormatTime(total, false))
                 .AddRow("Total parts 1", FormatTime(totalPart1, false))
                 .AddRow("Total parts 2", FormatTime(totalPart2, false))
+                .AddRow("Total load", FormatTime(_totalElapsedLoadTime.Sum(), false))
                 .AddRow()
-                .AddRow("Mean  (per day)", FormatTime(total / _totalElapsedTime.Count))
-                .AddRow("Mean  parts 1", FormatTime(_totalElapsedTime.Select(t => t.part1).Average()))
-                .AddRow("Mean  parts 2", FormatTime(_totalElapsedTime.Select(t => t.part2).Average()));
+                .AddRow("Mean (per day)", FormatTime(total / _totalElapsedTime.Count))
+                .AddRow("Mean parts 1", FormatTime(_totalElapsedTime.Select(t => t.part1).Average()))
+                .AddRow("Mean parts 2", FormatTime(_totalElapsedTime.Select(t => t.part2).Average()))
+                .AddRow("Mean load", FormatTime(_totalElapsedLoadTime.Sum() / _totalElapsedLoadTime.Count));
 
             AnsiConsole.Render(
                 new Panel(grid)
@@ -233,5 +245,5 @@
         }
     }
 
-    public record Row(string Day = "", int Part = 0, string Solution = "", double elapsedTime = 0);
+    public record Row(string Day = "", int Part = 0, string Solution = "", double elapsedPartTime = 0);
 }
