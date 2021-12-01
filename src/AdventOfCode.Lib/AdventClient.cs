@@ -1,35 +1,31 @@
-﻿namespace AdventOfCode.Lib
-{
-    using System.IO;
-    using System.Net.Http;
-    using System.Threading.Tasks;
+﻿namespace AdventOfCode.Lib;
 
-    public interface IAdventClient
+public interface IAdventClient
+{
+    Task FetchInput(uint year, uint day, string path);
+}
+
+public class AdventClient : IAdventClient
+{
+    private readonly HttpClient _client;
+
+    public AdventClient(HttpClient client)
     {
-        Task FetchInput(uint year, uint day, string path);
+        _client = client;
     }
 
-    public class AdventClient : IAdventClient
+    private static string InputUrl(uint year, uint day) => $"{year}/day/{day}/input";
+
+    public async Task FetchInput(uint year, uint day, string path)
     {
-        private readonly HttpClient _client;
+        if (File.Exists(path)) return;
 
-        public AdventClient(HttpClient client)
-        {
-            _client = client;
-        }
+        var directory = Path.GetDirectoryName(path) ?? string.Empty;
+        Directory.CreateDirectory(directory);
 
-        private static string InputUrl(uint year, uint day) => $"{year}/day/{day}/input";
-
-        public async Task FetchInput(uint year, uint day, string path)
-        {
-            if (File.Exists(path)) return;
-
-            var directory = Path.GetDirectoryName(path) ?? string.Empty;
-            if (Directory.Exists(directory) == false) Directory.CreateDirectory(directory);
-
-            var stream = await _client.GetStreamAsync(InputUrl(year, day));
-            await using var fileStream = File.Create(path);
-            await stream.CopyToAsync(fileStream);
-        }
+        var stream = await _client.GetStreamAsync(InputUrl(year, day)).ConfigureAwait(false);
+        var fileStream = File.Create(path);
+        await using var _ = fileStream.ConfigureAwait(false);
+        await stream.CopyToAsync(fileStream).ConfigureAwait(false);
     }
 }

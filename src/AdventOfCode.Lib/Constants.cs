@@ -1,11 +1,8 @@
-﻿namespace AdventOfCode.Lib
+﻿namespace AdventOfCode.Lib;
+
+public static class Constants
 {
-    using System;
-
-    public static class Constants
-    {
-        public const string Endpoint = "https://adventofcode.com/";
-
-        public static readonly string SessionCookie = Environment.GetEnvironmentVariable("AdventOfCodeSession") ?? "";
-    }
+    private const string CookieName = "AdventOfCodeSession";
+    public const string Endpoint = "https://adventofcode.com/";
+    public static readonly string SessionCookie = Environment.GetEnvironmentVariable(CookieName) ?? "";
 }

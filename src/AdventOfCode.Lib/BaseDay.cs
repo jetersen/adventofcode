@@ -1,33 +1,30 @@
-﻿namespace AdventOfCode.Lib
+﻿namespace AdventOfCode.Lib;
+
+public abstract class BaseDay : BaseProblem
 {
-    using System.Threading.Tasks;
+    private readonly IAdventClient _client;
 
-    public abstract class BaseDay : BaseProblem
+    protected BaseDay(IAdventClient client)
     {
-        private readonly IAdventClient _client;
+        _client = client;
+    }
 
-        protected BaseDay(IAdventClient client)
-        {
-            _client = client;
-        }
+    protected override string ClassPrefix { get; } = "Day";
 
-        protected override string ClassPrefix { get; } = "Day";
+    public override Task FetchInput() => _client.FetchInput(Year, Day, InputFilePath);
 
-        public override Task FetchInput() => _client.FetchInput(Year, Day, InputFilePath);
+    public uint Day { get; set; }
+    public uint Year { get; set; }
 
-        public uint Day { get; set; }
-        public uint Year { get; set; }
+    public override uint CalculateIndex()
+    {
+        if (Day == 0) Day = base.CalculateIndex();
 
-        public override uint CalculateIndex()
-        {
-            if (Day == 0) Day = base.CalculateIndex();
+        if (Year != 0) return Day;
 
-            if (Year != 0) return Day;
+        var ns = GetType().Namespace ?? string.Empty;
+        Year = uint.Parse(ns[^4..]);
 
-            var ns = GetType().Namespace ?? string.Empty;
-            Year = uint.Parse(ns.Substring(ns.Length - 4));
-
-            return Day;
-        }
+        return Day;
     }
 }

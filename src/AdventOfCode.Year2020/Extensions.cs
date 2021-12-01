@@ -1,20 +1,18 @@
-﻿namespace AdventOfCode.Year2020
+﻿
+
+namespace AdventOfCode.Year2020;
+
+public static class Extensions
 {
-    using System;
-    using System.Text.RegularExpressions;
+    public static string GetGroupValue(this Match match, int captureId)
+        => match.Groups[captureId].Value;
 
-    public static class Extensions
-    {
-        public static string GetGroupValue(this Match match, int captureId)
-            => match.Groups[captureId].Value;
+    public static T GetGroupValue<T>(this Match match, int captureId)
+        => (T)Convert.ChangeType(GetGroupValue(match, captureId), typeof(T));
 
-        public static T GetGroupValue<T>(this Match match, int captureId)
-            => (T)Convert.ChangeType(GetGroupValue(match, captureId), typeof(T));
+    public static string GetGroupValue(this Match match, string captureName)
+        => match.Groups[captureName].Value;
 
-        public static string GetGroupValue(this Match match, string captureName)
-            => match.Groups[captureName].Value;
-
-        public static T GetGroupValue<T>(this Match match, string captureName)
-            => (T)Convert.ChangeType(GetGroupValue(match, captureName), typeof(T));
-    }
+    public static T GetGroupValue<T>(this Match match, string captureName)
+        => (T)Convert.ChangeType(GetGroupValue(match, captureName), typeof(T));
 }
