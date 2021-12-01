@@ -50,6 +50,11 @@ public static class BaseProgram
         }
     }
 
+    public static Task RunSolver(string[] args)
+    {
+        return RunSolver(args, new ServiceCollection());
+    }
+
     public static async Task RunSolver(string[] args, IServiceCollection services)
     {
         DotEnv.Fluent()

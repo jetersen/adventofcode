@@ -1,1 +1,1 @@
-﻿await BaseProgram.RunSolver(args, new ServiceCollection()).ConfigureAwait(false);
+﻿await BaseProgram.RunSolver(args).ConfigureAwait(false);
