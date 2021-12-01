@@ -35,16 +35,14 @@ public abstract class BaseProblem
     /// </summary>
     /// <summary>
     /// Extracts problem's index from the class name.
-    /// Supported formats: <see cref="ClassPrefix"/>{Index}, <see cref="ClassPrefix"/>_{Index}.
     /// In case of unsupported class name format, <see cref="InputFilePath"/> needs to be overriden to point to the right input file.
     /// </summary>
     /// <returns>Problem's index or uint.MaxValue if unsupported class name.</returns>
     protected static uint CalculateIndex(Type type)
     {
         var typeName = type.Name;
-        var prefixLength = typeName.IndexOfAny(Digits);
-        var number = typeName[prefixLength..]
-            .TrimStart('_');
+        var numberIndex = typeName.IndexOfAny(Digits);
+        var number = typeName[numberIndex..];
 
         return uint.TryParse(number, out var index)
             ? index
@@ -54,7 +52,7 @@ public abstract class BaseProblem
     /// <summary>
     /// Expected input file path.
     /// By default, <see cref="InputFileDirPath"/>/<see cref="CalculateIndex"/>.<see cref="InputFileExtension"/>.
-    /// Overriding it makes <see cref="ClassPrefix"/>, <see cref="InputFileDirPath"/>, <see cref="InputFileExtension"/> and <see cref="CalculateIndex"/> irrelevant
+    /// Overriding it makes <see cref="InputFileDirPath"/>, <see cref="InputFileExtension"/> and <see cref="CalculateIndex"/> irrelevant
     /// </summary>
     public virtual FilePath InputFilePath { get; }
     public virtual uint Index { get; }
