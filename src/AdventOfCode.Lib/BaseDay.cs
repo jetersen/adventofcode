@@ -14,8 +14,6 @@ public abstract class BaseDay : BaseProblem
         InputFileDirPath = base.InputFileDirPath.Combine(new DirectoryPath(Year.ToString()));
     }
 
-    protected override string ClassPrefix { get; } = "Day";
-
     public override Task FetchInput() => _client.FetchInput(Year, Day, InputFilePath);
 
     protected override DirectoryPath InputFileDirPath { get; }

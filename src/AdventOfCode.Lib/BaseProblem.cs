@@ -19,8 +19,6 @@ public abstract class BaseProblem
         InputFilePath = filePath;
     }
 
-    protected virtual string ClassPrefix { get; } = "Problem";
-
     /// <summary>
     /// Expected input file dir path.
     /// </summary>
@@ -65,7 +63,7 @@ public abstract class BaseProblem
 
     public abstract Task LoadInput();
 
-    public abstract string Solve_1();
+    public abstract ValueTask<string> Solve_1();
 
-    public abstract string Solve_2();
+    public abstract ValueTask<string> Solve_2();
 }
