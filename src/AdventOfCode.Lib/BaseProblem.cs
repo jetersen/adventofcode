@@ -2,6 +2,7 @@
 
 public abstract class BaseProblem
 {
+    private static readonly char[] Digits = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
     private readonly IEnvironment _environment;
     private readonly IFileSystem _fileSystem;
 
@@ -9,6 +10,13 @@ public abstract class BaseProblem
     {
         _environment = environment;
         _fileSystem = fileSystem;
+        var directoryPath = new DirectoryPath("Inputs");
+        directoryPath.MakeAbsolute(environment);
+        InputFileDirPath = directoryPath;
+        var index = CalculateIndex(GetType());
+        Index = index;
+        var filePath = directoryPath.CombineWithFilePath(new FilePath($"{index:D2}.{InputFileExtension.TrimStart('.')}"));
+        InputFilePath = filePath;
     }
 
     protected virtual string ClassPrefix { get; } = "Problem";
@@ -16,7 +24,7 @@ public abstract class BaseProblem
     /// <summary>
     /// Expected input file dir path.
     /// </summary>
-    private DirectoryPath InputFileDirPath { get; } = new("Inputs");
+    protected virtual DirectoryPath InputFileDirPath { get; } = new("Inputs");
 
     /// <summary>
     /// Expected input file extension.
@@ -33,10 +41,10 @@ public abstract class BaseProblem
     /// In case of unsupported class name format, <see cref="InputFilePath"/> needs to be overriden to point to the right input file.
     /// </summary>
     /// <returns>Problem's index or uint.MaxValue if unsupported class name.</returns>
-    public virtual uint CalculateIndex()
+    protected static uint CalculateIndex(Type type)
     {
-        var typeName = GetType().Name;
-        var prefixLength = typeName.IndexOf(ClassPrefix, StringComparison.InvariantCulture) + ClassPrefix.Length;
+        var typeName = type.Name;
+        var prefixLength = typeName.IndexOfAny(Digits);
         var number = typeName[prefixLength..]
             .TrimStart('_');
 
@@ -50,16 +58,8 @@ public abstract class BaseProblem
     /// By default, <see cref="InputFileDirPath"/>/<see cref="CalculateIndex"/>.<see cref="InputFileExtension"/>.
     /// Overriding it makes <see cref="ClassPrefix"/>, <see cref="InputFileDirPath"/>, <see cref="InputFileExtension"/> and <see cref="CalculateIndex"/> irrelevant
     /// </summary>
-    public virtual FilePath InputFilePath
-    {
-        get
-        {
-            var index = CalculateIndex().ToString("D2");
-            InputFileDirPath.MakeAbsolute(_environment);
-            var filePath = InputFileDirPath.CombineWithFilePath(new FilePath($"{index}.{InputFileExtension.TrimStart('.')}"));
-            return filePath;
-        }
-    }
+    public virtual FilePath InputFilePath { get; }
+    public virtual uint Index { get; }
 
     public abstract Task FetchInput();
 

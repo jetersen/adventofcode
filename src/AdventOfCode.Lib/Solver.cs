@@ -54,7 +54,7 @@ public class Solver
     /// <param name="problemNumbers"></param>
     public IEnumerable<Task> Solve(IEnumerable<uint> problemNumbers) =>
         _baseProblems
-            .Where(problem => problemNumbers.Contains(problem.CalculateIndex()))
+            .Where(problem => problemNumbers.Contains(problem.Index))
             .Select(SolveProblem);
 
     /// <summary>
@@ -86,7 +86,7 @@ public class Solver
 
     private async Task SolveProblem(BaseProblem problem)
     {
-        var problemIndex = problem.CalculateIndex();
+        var problemIndex = problem.Index;
         var problemTitle = problemIndex != default
             ? $"Day {problemIndex}"
             : $"{problem.GetType().Name}";
