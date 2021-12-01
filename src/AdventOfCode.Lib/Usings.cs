@@ -1,3 +1,5 @@
+global using dotenv.net;
+global using dotenv.net.Utilities;
 global using Microsoft.Extensions.DependencyInjection;
 global using Spectre.Console;
 global using System.Diagnostics;

@@ -14,6 +14,15 @@ public static class BaseProgram
 
     public static async Task RunSolver(string[] args, IServiceCollection services)
     {
+        DotEnv.Fluent()
+            .WithoutExceptions()
+            .WithEnvFiles()
+            .WithTrimValues()
+            .WithDefaultEncoding()
+            .WithOverwriteExistingVars()
+            .WithProbeForEnv(6)
+            .Load();
+
         ConfigureServices(services);
         ServiceProvider serviceProvider = BuildServiceProvider(services);
         var solver = serviceProvider.GetRequiredService<Solver>();
