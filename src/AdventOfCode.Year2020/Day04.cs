@@ -22,15 +22,15 @@ public class Day04 : BaseDay
             .ToList();
     }
 
-    public override string Solve_1() => _input
+    public override ValueTask<string> Solve_1() => new(_input
         .Count(dict => ValidFields.All(key =>
             dict.TryGetValue(key, out var str)))
-        .ToString();
+        .ToString());
 
-    public override string Solve_2() => _input
+    public override ValueTask<string> Solve_2() => new(_input
         .Count(dict => ValidFields.All(key =>
             dict.TryGetValue(key, out var str) && RegexExpressions[key].IsMatch(str)))
-        .ToString();
+        .ToString());
 
     private static readonly Regex KeyValueRegex = new(@"(?<key>\S*):(?<value>\S*)\s?");
 

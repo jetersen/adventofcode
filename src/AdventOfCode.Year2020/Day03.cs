@@ -10,17 +10,17 @@ public class Day03 : BaseDay
 
     public override async Task LoadInput() => _input = (await File.ReadAllLinesAsync(InputFilePath.FullPath)).ToList();
 
-    public override string Solve_1() => TransverseMap(
+    public override ValueTask<string> Solve_1() => new(TransverseMap(
             new[] {(x: 3, y: 1)},
             ch => ch == '#')
         .Single()
-        .ToString();
+        .ToString());
 
-    public override string Solve_2() => TransverseMap(
+    public override ValueTask<string> Solve_2() => new(TransverseMap(
             new[] {(x: 1, y: 1), (x: 3, y: 1), (x: 5, y: 1), (x: 7, y: 1), (x: 1, y: 2)},
             ch => ch == '#')
         .Aggregate(1L, (total, n) => total * n)
-        .ToString();
+        .ToString());
 
     internal IEnumerable<int> TransverseMap(ICollection<(int x, int y)> slopes, Func<char, bool> predicate)
     {

@@ -25,16 +25,15 @@ public sealed class Day02 : BaseDay
             ));
     }
 
-    public override string Solve_1() => _input
+    public override ValueTask<string> Solve_1() => new(_input
         .Select(ParseInput)
         .Count(x => IsPasswordValid(x.password, x.policy))
-        .ToString();
+        .ToString());
 
-
-    public override string Solve_2() => _input
+    public override ValueTask<string> Solve_2() => new(_input
         .Select(ParseInput)
         .Count(x => IsPasswordValid2(x.password, x.policy))
-        .ToString();
+        .ToString());
 
     private static bool IsPasswordValid(string password, PasswordPolicy policy)
     {

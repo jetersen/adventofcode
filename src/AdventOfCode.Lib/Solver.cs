@@ -93,8 +93,8 @@ public class Solver
 
         await LoadInput(problem).ConfigureAwait(false);
 
-        var (solution1, elapsedMillisecondsPart1) = SolvePart(true, problem);
-        var (solution2, elapsedMillisecondsPart2) = SolvePart(false, problem);
+        var (solution1, elapsedMillisecondsPart1) = await SolvePart(true, problem);
+        var (solution2, elapsedMillisecondsPart2) = await SolvePart(false, problem);
 
         _rows.Add(new Row(problemTitle, 1, solution1, elapsedMillisecondsPart1));
         _rows.Add(new Row(problemTitle, 2, solution2, elapsedMillisecondsPart2));
@@ -102,19 +102,19 @@ public class Solver
         _totalElapsedTime.Add((elapsedMillisecondsPart1, elapsedMillisecondsPart2));
     }
 
-    private static (string solution, double elapsedTime) SolvePart(bool isPart1, BaseProblem problem)
+    private static async Task<(string solution, double elapsedTime)> SolvePart(bool isPart1, BaseProblem problem)
     {
         var stopwatch = new Stopwatch();
         string solution;
 
         try
         {
-            Func<string> solve = isPart1
+            Func<ValueTask<string>> solve = isPart1
                 ? problem.Solve_1
                 : problem.Solve_2;
 
             stopwatch.Start();
-            solution = solve();
+            solution = await solve();
         }
         catch (NotImplementedException)
         {

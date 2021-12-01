@@ -12,13 +12,13 @@ public class Day05 : BaseDay
         .Select(ParseSeatNumber)
         .ToList();
 
-    public override string Solve_1() => _input.Max().ToString();
+    public override ValueTask<string> Solve_1() => new(_input.Max().ToString());
 
-    public override string Solve_2() => Enumerable
+    public override ValueTask<string> Solve_2() => new(Enumerable
         .Range(0, _input.Max())
         .Except(_input)
         .Max()
-        .ToString();
+        .ToString());
 
     private static int ParseSeatNumber(string pass) =>
         Convert.ToInt32(ConvertToBinary(pass), 2);
