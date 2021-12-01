@@ -4,7 +4,7 @@ public abstract class BaseDay : BaseProblem
 {
     private readonly IAdventClient _client;
 
-    protected BaseDay(IAdventClient client)
+    protected BaseDay(IAdventClient client, IEnvironment environment, IFileSystem fileSystem) : base(environment, fileSystem)
     {
         _client = client;
     }

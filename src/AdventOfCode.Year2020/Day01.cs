@@ -4,11 +4,11 @@ public sealed class Day01 : BaseDay
 {
     private List<int> _input = new();
 
-    public Day01(IAdventClient client) : base(client)
+    public Day01(IAdventClient client, IEnvironment environment, IFileSystem fileSystem) : base(client, environment, fileSystem)
     {
     }
 
-    public override async Task LoadInput() => _input = (await File.ReadAllLinesAsync(InputFilePath)).Select(int.Parse).ToList();
+    public override async Task LoadInput() => _input = (await File.ReadAllLinesAsync(InputFilePath.FullPath)).Select(int.Parse).ToList();
 
     public override string Solve_1() => _input
         .SelectMany(_ => _input, (x, y) => new {x, y})

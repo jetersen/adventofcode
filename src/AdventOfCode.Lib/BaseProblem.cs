@@ -2,12 +2,21 @@
 
 public abstract class BaseProblem
 {
+    private readonly IEnvironment _environment;
+    private readonly IFileSystem _fileSystem;
+
+    protected BaseProblem(IEnvironment environment, IFileSystem fileSystem)
+    {
+        _environment = environment;
+        _fileSystem = fileSystem;
+    }
+
     protected virtual string ClassPrefix { get; } = "Problem";
 
     /// <summary>
     /// Expected input file dir path.
     /// </summary>
-    private string InputFileDirPath { get; } = "Inputs";
+    private DirectoryPath InputFileDirPath { get; } = new("Inputs");
 
     /// <summary>
     /// Expected input file extension.
@@ -27,8 +36,8 @@ public abstract class BaseProblem
     public virtual uint CalculateIndex()
     {
         var typeName = GetType().Name;
-        var number = typeName
-            .Substring(typeName.IndexOf(ClassPrefix, StringComparison.InvariantCulture) + ClassPrefix.Length)
+        var prefixLength = typeName.IndexOf(ClassPrefix, StringComparison.InvariantCulture) + ClassPrefix.Length;
+        var number = typeName[prefixLength..]
             .TrimStart('_');
 
         return uint.TryParse(number, out var index)
@@ -41,13 +50,14 @@ public abstract class BaseProblem
     /// By default, <see cref="InputFileDirPath"/>/<see cref="CalculateIndex"/>.<see cref="InputFileExtension"/>.
     /// Overriding it makes <see cref="ClassPrefix"/>, <see cref="InputFileDirPath"/>, <see cref="InputFileExtension"/> and <see cref="CalculateIndex"/> irrelevant
     /// </summary>
-    public virtual string InputFilePath
+    public virtual FilePath InputFilePath
     {
         get
         {
             var index = CalculateIndex().ToString("D2");
-
-            return Path.Combine(InputFileDirPath, $"{index}.{InputFileExtension.TrimStart('.')}");
+            InputFileDirPath.MakeAbsolute(_environment);
+            var filePath = InputFileDirPath.CombineWithFilePath(new FilePath($"{index}.{InputFileExtension.TrimStart('.')}"));
+            return filePath;
         }
     }
 

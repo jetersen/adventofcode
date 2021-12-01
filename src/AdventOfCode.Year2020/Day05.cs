@@ -4,11 +4,11 @@ public class Day05 : BaseDay
 {
     private List<int> _input = new();
 
-    public Day05(IAdventClient client) : base(client)
+    public Day05(IAdventClient client, IEnvironment environment, IFileSystem fileSystem) : base(client, environment, fileSystem)
     {
     }
 
-    public override async Task LoadInput() => _input = (await File.ReadAllLinesAsync(InputFilePath))
+    public override async Task LoadInput() => _input = (await File.ReadAllLinesAsync(InputFilePath.FullPath))
         .Select(ParseSeatNumber)
         .ToList();
 

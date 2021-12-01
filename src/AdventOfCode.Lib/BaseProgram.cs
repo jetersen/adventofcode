@@ -5,6 +5,8 @@ public static class BaseProgram
     public static IServiceCollection ConfigureServices(IServiceCollection services)
     {
         services.AddAdventOfCodeHttpClient();
+        services.AddSingleton<IEnvironment, Spectre.IO.Environment>();
+        services.AddSingleton<IFileSystem, FileSystem>();
         services.RegisterAllTypes<BaseProblem>(Assembly.GetEntryAssembly()!);
         services.AddSingleton<Solver>();
         return services;

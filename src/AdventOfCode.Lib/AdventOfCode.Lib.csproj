@@ -5,10 +5,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Using Remove="System.IO" />
+    <Using Remove="System.Environment" />
+  </ItemGroup>
+  
+  <ItemGroup>
     <PackageReference Include="dotenv.net" Version="3.1.1" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0" />
     <PackageReference Include="Spectre.Console" Version="0.43.0" />
+    <PackageReference Include="Spectre.IO" Version="0.8.0" />
   </ItemGroup>
 
 </Project>

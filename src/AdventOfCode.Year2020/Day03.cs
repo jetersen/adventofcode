@@ -4,11 +4,11 @@ public class Day03 : BaseDay
 {
     private List<string> _input = new();
 
-    public Day03(IAdventClient client) : base(client)
+    public Day03(IAdventClient client, IEnvironment environment, IFileSystem fileSystem) : base(client, environment, fileSystem)
     {
     }
 
-    public override async Task LoadInput() => _input = (await File.ReadAllLinesAsync(InputFilePath)).ToList();
+    public override async Task LoadInput() => _input = (await File.ReadAllLinesAsync(InputFilePath.FullPath)).ToList();
 
     public override string Solve_1() => TransverseMap(
             new[] {(x: 3, y: 1)},

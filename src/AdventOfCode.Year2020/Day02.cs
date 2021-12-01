@@ -6,11 +6,11 @@ public sealed class Day02 : BaseDay
 
     private static readonly Regex Regex = new(@"(?<min>\d+)-(?<max>\d+) (?<character>\w): (?<password>\w+)");
 
-    public Day02(IAdventClient client) : base(client)
+    public Day02(IAdventClient client, IEnvironment environment, IFileSystem fileSystem) : base(client, environment, fileSystem)
     {
     }
 
-    public override async Task LoadInput() => _input = (await File.ReadAllLinesAsync(InputFilePath)).ToList();
+    public override async Task LoadInput() => _input = (await File.ReadAllLinesAsync(InputFilePath.FullPath)).ToList();
 
     public static (string password, PasswordPolicy policy) ParseInput(string input)
     {

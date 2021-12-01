@@ -4,13 +4,13 @@ public class Day04 : BaseDay
 {
     private List<Dictionary<string, string>> _input = new();
 
-    public Day04(IAdventClient client) : base(client)
+    public Day04(IAdventClient client, IEnvironment environment, IFileSystem fileSystem) : base(client, environment, fileSystem)
     {
     }
 
     public override async Task LoadInput()
     {
-        var input = await File.ReadAllTextAsync(InputFilePath);
+        var input = await File.ReadAllTextAsync(InputFilePath.FullPath);
         IEnumerable<MatchCollection> passportKeyValueMatches = input
             .Split("\n\n")
             .Select(onePassport => KeyValueRegex.Matches(onePassport));
