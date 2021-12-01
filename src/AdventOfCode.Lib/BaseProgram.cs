@@ -12,8 +12,9 @@ public static class BaseProgram
         services.AddSingleton(provider =>
         {
             var globber = provider.GetRequiredService<IGlobber>();
-            // Set working directory before building constructing base problems
-            SetWorkingDirectory(globber);
+            var environment = provider.GetRequiredService<IEnvironment>();
+            // Set working directory before constructing base problems
+            SetWorkingDirectory(globber, environment);
             var problems = provider.GetRequiredService<IEnumerable<BaseProblem>>();
             return new Solver(problems);
         });
@@ -25,13 +26,13 @@ public static class BaseProgram
     /// <summary>
     /// Set working directory to project folder so inputs file are located within the year folder
     /// </summary>
-    public static void SetWorkingDirectory(IGlobber globber)
+    public static void SetWorkingDirectory(IGlobber globber, IEnvironment environment)
     {
         var currentDirectory = new DirectoryPath(AppContext.BaseDirectory);
         int count = 3;
         string? str = SearchPaths();
         var workingDirectory = !string.IsNullOrEmpty(str) ? new DirectoryPath(str) : currentDirectory;
-        System.IO.Directory.SetCurrentDirectory(workingDirectory.FullPath);
+        environment.SetWorkingDirectory(workingDirectory);
 
         string? SearchPaths()
         {
