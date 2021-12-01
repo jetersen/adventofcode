@@ -7,12 +7,48 @@ public static class BaseProgram
         services.AddAdventOfCodeHttpClient();
         services.AddSingleton<IEnvironment, Spectre.IO.Environment>();
         services.AddSingleton<IFileSystem, FileSystem>();
+        services.AddSingleton<IGlobber, Globber>();
         services.RegisterAllTypes<BaseProblem>(Assembly.GetEntryAssembly()!);
-        services.AddSingleton<Solver>();
+        services.AddSingleton(provider =>
+        {
+            var globber = provider.GetRequiredService<IGlobber>();
+            // Set working directory before building constructing base problems
+            SetWorkingDirectory(globber);
+            var problems = provider.GetRequiredService<IEnumerable<BaseProblem>>();
+            return new Solver(problems);
+        });
         return services;
     }
 
     public static ServiceProvider BuildServiceProvider(IServiceCollection services) => services.BuildServiceProvider();
+
+    /// <summary>
+    /// Set working directory to project folder so inputs file are located within the year folder
+    /// </summary>
+    public static void SetWorkingDirectory(IGlobber globber)
+    {
+        var currentDirectory = new DirectoryPath(AppContext.BaseDirectory);
+        int count = 3;
+        string? str = SearchPaths();
+        var workingDirectory = !string.IsNullOrEmpty(str) ? new DirectoryPath(str) : currentDirectory;
+        System.IO.Directory.SetCurrentDirectory(workingDirectory.FullPath);
+
+        string? SearchPaths()
+        {
+            var globberSettings = new GlobberSettings();
+            for (; currentDirectory != null && count > 0; currentDirectory = currentDirectory.GetParent())
+            {
+                globberSettings.Root = currentDirectory;
+                var filePath = globber.Match("*.csproj", globberSettings).OfType<FilePath>().FirstOrDefault();
+                if (filePath != null)
+                {
+                    return filePath.FullPath;
+                }
+                count--;
+            }
+            return null;
+        }
+    }
 
     public static async Task RunSolver(string[] args, IServiceCollection services)
     {
