@@ -2,7 +2,6 @@
 
 public abstract class BaseProblem
 {
-    private static readonly char[] Digits = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
     private readonly IEnvironment _environment;
     private readonly IFileSystem _fileSystem;
 
@@ -15,7 +14,7 @@ public abstract class BaseProblem
         InputFileDirPath = directoryPath;
         var index = CalculateIndex(GetType());
         Index = index;
-        var filePath = directoryPath.CombineWithFilePath(new FilePath($"{index:D2}.{InputFileExtension.TrimStart('.')}"));
+        var filePath = directoryPath.CombineWithFilePath(new($"{index:D2}.{InputFileExtension.TrimStart('.')}"));
         InputFilePath = filePath;
     }
 
@@ -41,7 +40,7 @@ public abstract class BaseProblem
     protected static uint CalculateIndex(Type type)
     {
         var typeName = type.Name;
-        var numberIndex = typeName.IndexOfAny(Digits);
+        var numberIndex = typeName.IndexOfAny(Constants.Digits);
         var number = typeName[numberIndex..];
 
         return uint.TryParse(number, out var index)
