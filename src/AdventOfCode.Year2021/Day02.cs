@@ -4,7 +4,7 @@ public sealed class Day02 : BaseDay
 {
     private DirectionDistance[] _input = Array.Empty<DirectionDistance>();
 
-    private record DirectionDistance(char direction, int distance);
+    private record DirectionDistance(char Direction, int Distance);
 
     public Day02(IAdventClient client, IEnvironment environment, IFileSystem fileSystem) : base(client, environment, fileSystem)
     {
@@ -12,7 +12,7 @@ public sealed class Day02 : BaseDay
 
     public override async Task LoadInput() => _input = (await File.ReadAllLinesAsync(InputFilePath.FullPath)).Select(ParseInput).ToArray();
 
-    private DirectionDistance ParseInput(string arg)
+    private static DirectionDistance ParseInput(string arg)
     {
         return new(arg[0], int.Parse(arg[^1..]));
     }
