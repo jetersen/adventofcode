@@ -8,13 +8,14 @@
 public class Solver
 {
     private readonly IEnumerable<BaseProblem> _baseProblems;
-    private readonly List<Row> _rows = new();
     private readonly List<(double part1, double part2)> _totalElapsedTime = new();
     private readonly List<double> _totalElapsedLoadTime = new();
+    private readonly Table _table;
 
     public Solver(IEnumerable<BaseProblem> baseProblems)
     {
         _baseProblems = baseProblems;
+        _table = GetTable();
     }
 
     /// <summary>
@@ -45,17 +46,16 @@ public class Solver
     /// 0 can be used for those problems whose <see cref="BaseProblem.CalculateIndex"/> returns the default value due to not being able to deduct the index.
     /// </summary>
     /// <param name="problemNumbers"></param>
-    public IEnumerable<Task> Solve(params uint[] problemNumbers) => Solve(problemNumbers.AsEnumerable());
+    public async Task Solve(params uint[] problemNumbers) => await Solve(problemNumbers.AsEnumerable());
 
     /// <summary>
     /// Solves those problems whose <see cref="BaseProblem.CalculateIndex"/> method matches one of the provided numbers.
     /// 0 can be used for those problems whose <see cref="BaseProblem.CalculateIndex"/> returns the default value due to not being able to deduct the index.
     /// </summary>
     /// <param name="problemNumbers"></param>
-    public IEnumerable<Task> Solve(IEnumerable<uint> problemNumbers) =>
-        _baseProblems
-            .Where(problem => problemNumbers.Contains(problem.Index))
-            .Select(SolveProblem);
+    public async Task Solve(IEnumerable<uint> problemNumbers) =>
+        await SolveProblems(_baseProblems
+            .Where(problem => problemNumbers.Contains(problem.Index)));
 
     /// <summary>
     /// Solves last problem.
@@ -68,23 +68,42 @@ public class Solver
     /// Solves the provided problems.
     /// It also prints the elapsed time in <see cref="BaseProblem.Solve_1"/> and <see cref="BaseProblem.Solve_2"/> methods.
     /// </summary>
-    public IEnumerable<Task> Solve(params Type[] problems) => Solve(problems.AsEnumerable());
+    public async Task Solve(params Type[] problems) => await Solve(problems.AsEnumerable());
 
     /// <summary>
     /// Solves the provided problems.
     /// It also prints the elapsed time in <see cref="BaseProblem.Solve_1"/> and <see cref="BaseProblem.Solve_2"/> methods.
     /// </summary>
-    public IEnumerable<Task> Solve(IEnumerable<Type> problems) => _baseProblems.Select(SolveProblem);
+    public async Task Solve(IEnumerable<Type> problems) => await SolveProblems(_baseProblems);
 
     /// <summary>
     /// Solves all problems in the assembly.
     /// It also prints the elapsed time in <see cref="BaseProblem.Solve_1"/> and <see cref="BaseProblem.Solve_2"/> methods.
     /// </summary>
-    public IEnumerable<Task> SolveAll() => _baseProblems.Select(SolveProblem);
+    public async Task SolveAll() => await SolveProblems(_baseProblems);
+
+    public async Task SolveProblems(IEnumerable<BaseProblem> problems)
+    {
+        await AnsiConsole.Live(_table)
+            .AutoClear(false)
+            .Overflow(VerticalOverflow.Ellipsis)
+            .Cropping(VerticalOverflowCropping.Top)
+            .StartAsync(async ctx =>
+            {
+                var baseProblems = problems as BaseProblem[] ?? problems.ToArray();
+                var lastIndex = baseProblems.Length - 1;
+                for (int i = 0; i < baseProblems.Length; i++)
+                {
+                    await SolveProblem(baseProblems[i], ctx);
+                    if (i != lastIndex) _table.AddEmptyRow();
+                    ctx.Refresh();
+                }
+            });
+    }
 
     #endregion
 
-    private async Task SolveProblem(BaseProblem problem)
+    private async Task SolveProblem(BaseProblem problem, LiveDisplayContext? liveDisplayContext = null)
     {
         var problemIndex = problem.Index;
         var problemTitle = problemIndex != default
@@ -95,11 +114,14 @@ public class Solver
 
         var (solution1, elapsedMillisecondsPart1) = await SolvePart(true, problem);
         var (solution2, elapsedMillisecondsPart2) = await SolvePart(false, problem);
-
-        _rows.Add(new Row(problemTitle, 1, solution1, elapsedMillisecondsPart1));
-        _rows.Add(new Row(problemTitle, 2, solution2, elapsedMillisecondsPart2));
-
+        _table.AddRow(problemTitle, "Part 1", solution1, FormatTime(elapsedMillisecondsPart1));
+        _table.AddRow(problemTitle, "Part 2", solution2, FormatTime(elapsedMillisecondsPart2));
         _totalElapsedTime.Add((elapsedMillisecondsPart1, elapsedMillisecondsPart2));
+
+        if (liveDisplayContext == null)
+        {
+            AnsiConsole.Write(_table);
+        }
     }
 
     private static async Task<(string solution, double elapsedTime)> SolvePart(bool isPart1, BaseProblem problem)
@@ -159,7 +181,7 @@ public class Solver
                 < 1 => $"{elapsedMilliseconds:F} ms",
                 < 1_000 => $"{Math.Round(elapsedMilliseconds)} ms",
                 < 60_000 => $"{0.001 * elapsedMilliseconds:F} s",
-                _ => $"{elapsedMilliseconds / 60_000} min {Math.Round(0.001 * (elapsedMilliseconds % 60_000))} s",
+                _ => $"{Math.Floor(elapsedMilliseconds / 60_000)} min {Math.Round(0.001 * (elapsedMilliseconds % 60_000))} s",
             }
             : elapsedMilliseconds switch
             {
@@ -167,10 +189,10 @@ public class Solver
                 < 1_000 => $"{elapsedMilliseconds.ToString(ElapsedTimeFormatSpecifier)} ms",
                 < 60_000 => $"{(0.001 * elapsedMilliseconds).ToString(ElapsedTimeFormatSpecifier)} s",
                 _ =>
-                    $"{elapsedMilliseconds / 60_000} min {(0.001 * (elapsedMilliseconds % 60_000)).ToString(ElapsedTimeFormatSpecifier)} s",
+                    $"{Math.Floor(elapsedMilliseconds / 60_000)} min {Math.Round(0.001 * (elapsedMilliseconds % 60_000)).ToString(ElapsedTimeFormatSpecifier)} s",
             };
 
-        if (useColor == false) return message;
+        if (!useColor) return message;
 
         Color color = elapsedMilliseconds switch
         {
@@ -184,32 +206,6 @@ public class Solver
         };
 
         return $"[{color}]{message}[/]";
-    }
-
-    public void Render(bool clearConsole)
-    {
-        var table = GetTable();
-
-        var rows = _rows.OrderBy(r => r.Day).ThenBy(r => r.Part).ToList();
-
-        var rowsCount = rows.Count;
-        var lastRow = rowsCount - 1;
-        for (var i = 0; i < rowsCount; i++)
-        {
-            var (day, part, solution, elapsedTime) = rows[i];
-            table.AddRow(day, $"Part {part}", solution, FormatTime(elapsedTime));
-            if (part % 2 == 0 && i != lastRow) table.AddEmptyRow();
-        }
-
-        if (IsInteractiveEnvironment)
-        {
-            if (clearConsole)
-                Console.Clear();
-            else
-                AnsiConsole.Console.Clear(true);
-        }
-
-        AnsiConsole.Write(table);
     }
 
     public void RenderOverallResults()
@@ -237,5 +233,3 @@ public class Solver
                 .Header("[b] Overall results [/]", Justify.Center));
     }
 }
-
-public record Row(string Day = "", int Part = 0, string Solution = "", double elapsedPartTime = 0);

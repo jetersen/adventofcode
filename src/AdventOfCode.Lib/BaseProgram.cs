@@ -81,18 +81,18 @@ public static class BaseProgram
             // dotnet run all | dotnet run --all
             case 1 when args[0].Contains("all", StringComparison.CurrentCultureIgnoreCase):
                 all = true;
-                await Task.WhenAll(solver.SolveAll()).ConfigureAwait(false);
+                await solver.SolveAll().ConfigureAwait(false);
                 break;
             // dotnet run 1 2 5 10
             default:
                 {
                     var indexes = args.Select(arg => uint.TryParse(arg, out var index) ? index : uint.MaxValue);
-                    await Task.WhenAll(solver.Solve(indexes.Where(i => i < uint.MaxValue))).ConfigureAwait(false);
+                    await solver.Solve(indexes.Where(i => i < uint.MaxValue)).ConfigureAwait(false);
                     break;
                 }
         }
 
-        solver.Render(false);
+        // solver.Render(false);
         if (all) solver.RenderOverallResults();
     }
 }
