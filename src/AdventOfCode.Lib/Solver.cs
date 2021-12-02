@@ -112,8 +112,8 @@ public class Solver
 
         await LoadInput(problem).ConfigureAwait(false);
 
-        var (solution1, elapsedMillisecondsPart1) = await SolvePart(true, problem);
-        var (solution2, elapsedMillisecondsPart2) = await SolvePart(false, problem);
+        var (solution1, elapsedMillisecondsPart1) = await SolvePart(true, problem).ConfigureAwait(false);
+        var (solution2, elapsedMillisecondsPart2) = await SolvePart(false, problem).ConfigureAwait(false);
         _table.AddRow(problemTitle, "Part 1", solution1, FormatTime(elapsedMillisecondsPart1));
         _table.AddRow(problemTitle, "Part 2", solution2, FormatTime(elapsedMillisecondsPart2));
         _totalElapsedTime.Add((elapsedMillisecondsPart1, elapsedMillisecondsPart2));
