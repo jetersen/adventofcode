@@ -2,24 +2,28 @@
 
 public sealed class Day02 : BaseDay
 {
-    private string[] _input = Array.Empty<string>();
+    private DirectionDistance[] _input = Array.Empty<DirectionDistance>();
+
+    private record DirectionDistance(char direction, int distance);
 
     public Day02(IAdventClient client, IEnvironment environment, IFileSystem fileSystem) : base(client, environment, fileSystem)
     {
     }
 
-    public override async Task LoadInput() => _input = (await File.ReadAllLinesAsync(InputFilePath.FullPath));
+    public override async Task LoadInput() => _input = (await File.ReadAllLinesAsync(InputFilePath.FullPath)).Select(ParseInput).ToArray();
+
+    private DirectionDistance ParseInput(string arg)
+    {
+        return new(arg[0], int.Parse(arg[^1..]));
+    }
 
     public override ValueTask<string> Solve_1()
     {
         var position = 0;
         var depth = 0;
 
-        foreach (var instruction in _input)
+        foreach (var (direction, distance) in _input)
         {
-            var direction = instruction[0];
-            var distance = int.Parse(instruction[^1..]);
-
             switch (direction)
             {
                 case 'f':
@@ -43,11 +47,8 @@ public sealed class Day02 : BaseDay
         var depth = 0;
         var aim = 0;
 
-        foreach (var instruction in _input)
+        foreach (var (direction, distance) in _input)
         {
-            var direction = instruction[0];
-            var distance = int.Parse(instruction[^1..]);
-
             switch (direction)
             {
                 case 'f':
