@@ -31,7 +31,7 @@ public static class BaseProgram
         var currentDirectory = new DirectoryPath(AppContext.BaseDirectory);
         int count = 3;
         string? str = SearchPaths();
-        var workingDirectory = !string.IsNullOrEmpty(str) ? new DirectoryPath(str) : currentDirectory;
+        var workingDirectory = !string.IsNullOrEmpty(str) ? new(str) : currentDirectory;
         environment.SetWorkingDirectory(workingDirectory);
 
         string? SearchPaths()
