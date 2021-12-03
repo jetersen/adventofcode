@@ -7,17 +7,8 @@ public static class BaseProgram
         services.AddAdventOfCodeHttpClient();
         services.AddSingleton<IEnvironment, Spectre.IO.Environment>();
         services.AddSingleton<IFileSystem, FileSystem>();
-        services.AddSingleton<IGlobber, Globber>();
         services.RegisterAllTypes<BaseProblem>(Assembly.GetEntryAssembly()!);
-        services.AddSingleton(provider =>
-        {
-            var globber = provider.GetRequiredService<IGlobber>();
-            var environment = provider.GetRequiredService<IEnvironment>();
-            // Set working directory before constructing base problems
-            SetWorkingDirectory(globber, environment);
-            var problems = provider.GetRequiredService<IEnumerable<BaseProblem>>();
-            return new Solver(problems);
-        });
+        services.AddSingleton<Solver>();
         return services;
     }
 
@@ -26,29 +17,10 @@ public static class BaseProgram
     /// <summary>
     /// Set working directory to project folder so inputs file are located within the year folder
     /// </summary>
-    public static void SetWorkingDirectory(IGlobber globber, IEnvironment environment)
+    private static void SetWorkingDirectory()
     {
-        var currentDirectory = new DirectoryPath(AppContext.BaseDirectory);
-        int count = 3;
-        string? str = SearchPaths();
-        var workingDirectory = !string.IsNullOrEmpty(str) ? new(str) : currentDirectory;
-        environment.SetWorkingDirectory(workingDirectory);
-
-        string? SearchPaths()
-        {
-            var globberSettings = new GlobberSettings();
-            for (; currentDirectory != null && count > 0; currentDirectory = currentDirectory.GetParent())
-            {
-                globberSettings.Root = currentDirectory;
-                var filePath = globber.Match("*.csproj", globberSettings).OfType<FilePath>().FirstOrDefault();
-                if (filePath != null)
-                {
-                    return filePath.FullPath;
-                }
-                count--;
-            }
-            return null;
-        }
+        var workingDirectory = Extensions.FindDirectory("*.csproj", 4);
+        System.IO.Directory.SetCurrentDirectory(workingDirectory);
     }
 
     public static Task RunSolver(string[] args)
@@ -66,6 +38,8 @@ public static class BaseProgram
             .WithOverwriteExistingVars()
             .WithProbeForEnv(6)
             .Load();
+
+        SetWorkingDirectory();
 
         ConfigureServices(services);
         ServiceProvider serviceProvider = BuildServiceProvider(services);

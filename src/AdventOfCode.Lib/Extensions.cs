@@ -19,4 +19,25 @@ public static class Extensions
             c.BaseAddress = new(Constants.Endpoint);
             c.DefaultRequestHeaders.Add("Cookie", $"session={Constants.SessionCookie}");
         });
+
+    public static string FindDirectory(string pattern, int depth)
+    {
+        var currentDirectory = new System.IO.DirectoryInfo(AppContext.BaseDirectory);
+        var baseDirectory = currentDirectory.FullName;
+        var count = depth;
+        string? str = SearchPaths();
+        return !string.IsNullOrEmpty(str) ? str : baseDirectory;
+
+        string? SearchPaths()
+        {
+            for (; currentDirectory != null && count > 0; currentDirectory = currentDirectory.Parent)
+            {
+                var files = currentDirectory.GetFiles(pattern, System.IO.SearchOption.TopDirectoryOnly);
+                if (files.Length > 0)
+                    return currentDirectory.FullName;
+                count--;
+            }
+            return null;
+        }
+    }
 }
