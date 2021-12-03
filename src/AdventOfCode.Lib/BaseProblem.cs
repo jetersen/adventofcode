@@ -21,7 +21,7 @@ public abstract class BaseProblem
     /// <summary>
     /// Expected input file dir path.
     /// </summary>
-    protected virtual DirectoryPath InputFileDirPath { get; } = new("Inputs");
+    protected virtual DirectoryPath InputFileDirPath { get; }
 
     /// <summary>
     /// Expected input file extension.
@@ -56,7 +56,7 @@ public abstract class BaseProblem
     public virtual FilePath InputFilePath { get; }
     public virtual uint Index { get; }
 
-    public abstract Task FetchInput();
+    public abstract Task FetchInput(IAdventClient client);
 
     public abstract Task LoadInput();
 

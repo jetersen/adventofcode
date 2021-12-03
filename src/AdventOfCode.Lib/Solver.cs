@@ -8,13 +8,15 @@
 public class Solver
 {
     private readonly IEnumerable<BaseProblem> _baseProblems;
+    private readonly IAdventClient _client;
     private readonly List<(double part1, double part2)> _totalElapsedTime = new();
     private readonly List<double> _totalElapsedLoadTime = new();
     private readonly Table _table;
 
-    public Solver(IEnumerable<BaseProblem> baseProblems)
+    public Solver(IEnumerable<BaseProblem> baseProblems, IAdventClient client)
     {
         _baseProblems = baseProblems;
+        _client = client;
         _table = GetTable();
     }
 
@@ -158,7 +160,7 @@ public class Solver
     private async Task LoadInput(BaseProblem problem)
     {
         var stopwatch = Stopwatch.StartNew();
-        await problem.FetchInput().ConfigureAwait(false);
+        await problem.FetchInput(_client).ConfigureAwait(false);
         await problem.LoadInput().ConfigureAwait(false);
         stopwatch.Stop();
         var elapsedMilliseconds = CalculateElapsedMilliseconds(stopwatch);

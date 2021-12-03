@@ -6,7 +6,7 @@ public sealed class Day02 : BaseDay
 
     private record DirectionDistance(char Direction, int Distance);
 
-    public Day02(IAdventClient client, IEnvironment environment, IFileSystem fileSystem) : base(client, environment, fileSystem)
+    public Day02(IEnvironment environment, IFileSystem fileSystem) : base(environment, fileSystem)
     {
     }
 

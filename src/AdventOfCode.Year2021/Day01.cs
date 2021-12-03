@@ -4,7 +4,7 @@ public sealed class Day01 : BaseDay
 {
     private int[] _input = Array.Empty<int>();
 
-    public Day01(IAdventClient client, IEnvironment environment, IFileSystem fileSystem) : base(client, environment, fileSystem)
+    public Day01(IEnvironment environment, IFileSystem fileSystem) : base(environment, fileSystem)
     {
     }
 

@@ -4,7 +4,7 @@ public class Day03 : BaseDay
 {
     private List<string> _input = new();
 
-    public Day03(IAdventClient client, IEnvironment environment, IFileSystem fileSystem) : base(client, environment, fileSystem)
+    public Day03(IEnvironment environment, IFileSystem fileSystem) : base(environment, fileSystem)
     {
     }
 
