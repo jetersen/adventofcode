@@ -38,7 +38,7 @@ public sealed class Day02 : BaseDay
             }
         }
 
-        return new((position * depth).ToString());
+        return new($"{position * depth}");
     }
 
     public override ValueTask<string> Solve_2()
@@ -64,6 +64,6 @@ public sealed class Day02 : BaseDay
             }
         }
 
-        return new((position * depth).ToString());
+        return new($"{position * depth}");
     }
 }

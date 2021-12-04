@@ -31,6 +31,6 @@ public sealed class Day01 : BaseDay
             }
         }
 
-        return new(result.ToString());
+        return new($"{result}");
     }
 }
