@@ -4,10 +4,6 @@ public class Day04 : BaseDay
 {
     private List<Dictionary<string, string>> _input = new();
 
-    public Day04(IEnvironment environment, IFileSystem fileSystem) : base(environment, fileSystem)
-    {
-    }
-
     public override async Task LoadInput()
     {
         var input = await File.ReadAllTextAsync(InputFilePath.FullPath);

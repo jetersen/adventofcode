@@ -5,8 +5,6 @@ public static class BaseProgram
     public static IServiceCollection ConfigureServices(IServiceCollection services)
     {
         services.AddAdventOfCodeHttpClient();
-        services.AddSingleton<IEnvironment, Spectre.IO.Environment>();
-        services.AddSingleton<IFileSystem, FileSystem>();
         services.RegisterAllTypes<BaseProblem>(Assembly.GetEntryAssembly()!);
         services.AddSingleton<Solver>();
         return services;
@@ -23,12 +21,12 @@ public static class BaseProgram
         System.IO.Directory.SetCurrentDirectory(workingDirectory);
     }
 
-    public static Task RunSolver(string[] args)
+    public static async Task<int> RunSolver(string[] args)
     {
-        return RunSolver(args, new ServiceCollection());
+        return await RunSolver(args, new ServiceCollection());
     }
 
-    public static async Task RunSolver(string[] args, IServiceCollection services)
+    public static async Task<int> RunSolver(string[] args, IServiceCollection services)
     {
         DotEnv.Fluent()
             .WithoutExceptions()
@@ -68,5 +66,7 @@ public static class BaseProgram
 
         // solver.Render(false);
         if (all) solver.RenderOverallResults();
+
+        return 0;
     }
 }

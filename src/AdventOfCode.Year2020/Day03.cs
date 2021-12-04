@@ -4,10 +4,6 @@ public class Day03 : BaseDay
 {
     private List<string> _input = new();
 
-    public Day03(IEnvironment environment, IFileSystem fileSystem) : base(environment, fileSystem)
-    {
-    }
-
     public override async Task LoadInput() => _input = (await File.ReadAllLinesAsync(InputFilePath.FullPath)).ToList();
 
     public override ValueTask<string> Solve_1() => new(TransverseMap(

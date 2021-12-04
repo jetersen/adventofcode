@@ -3,11 +3,6 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Using Remove="System.IO" />
-    <Using Remove="System.Environment" />
-  </ItemGroup>
   
   <ItemGroup>
     <PackageReference Include="dotenv.net" Version="3.1.1" />

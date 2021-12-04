@@ -7,10 +7,6 @@ public sealed class Day04 : BaseDay
     private List<int> _numbers = new();
     private readonly List<BingoBoard> _boards = new();
 
-    public Day04(IEnvironment environment, IFileSystem fileSystem) : base(environment, fileSystem)
-    {
-    }
-
     public override async Task LoadInput()
     {
         var raw = await File.ReadAllTextAsync(InputFilePath.FullPath);

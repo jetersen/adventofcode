@@ -2,7 +2,7 @@
 
 public abstract class BaseDay : BaseProblem
 {
-    protected BaseDay(IEnvironment environment, IFileSystem fileSystem) : base(environment, fileSystem)
+    protected BaseDay()
     {
         var type = GetType();
         Day = CalculateIndex(type);

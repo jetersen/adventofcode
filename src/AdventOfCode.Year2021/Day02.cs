@@ -6,10 +6,6 @@ public sealed class Day02 : BaseDay
 
     private record DirectionDistance(char Direction, int Distance);
 
-    public Day02(IEnvironment environment, IFileSystem fileSystem) : base(environment, fileSystem)
-    {
-    }
-
     public override async Task LoadInput() => _input = (await File.ReadAllLinesAsync(InputFilePath.FullPath)).Select(ParseInput).ToArray();
 
     private static DirectionDistance ParseInput(string arg)

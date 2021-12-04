@@ -6,10 +6,6 @@ public sealed class Day03 : BaseDay
 {
     private string[] _input = Array.Empty<string>();
 
-    public Day03(IEnvironment environment, IFileSystem fileSystem) : base(environment, fileSystem)
-    {
-    }
-
     public override async Task LoadInput() => _input = await File.ReadAllLinesAsync(InputFilePath.FullPath);
 
     public override ValueTask<string> Solve_1()

@@ -2,26 +2,14 @@
 
 public abstract class BaseProblem
 {
-    private readonly IEnvironment _environment;
-    private readonly IFileSystem _fileSystem;
-
-    protected BaseProblem(IEnvironment environment, IFileSystem fileSystem)
+    protected BaseProblem()
     {
-        _environment = environment;
-        _fileSystem = fileSystem;
         var directoryPath = new DirectoryPath("Inputs");
-        directoryPath.MakeAbsolute(environment);
-        InputFileDirPath = directoryPath;
         var index = CalculateIndex(GetType());
         Index = index;
         var filePath = directoryPath.CombineWithFilePath(new($"{index:D2}.{InputFileExtension.TrimStart('.')}"));
         InputFilePath = filePath;
     }
-
-    /// <summary>
-    /// Expected input file dir path.
-    /// </summary>
-    protected virtual DirectoryPath InputFileDirPath { get; }
 
     /// <summary>
     /// Expected input file extension.

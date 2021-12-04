@@ -4,10 +4,6 @@ public sealed class Day01 : BaseDay
 {
     private List<int> _input = new();
 
-    public Day01(IEnvironment environment, IFileSystem fileSystem) : base(environment, fileSystem)
-    {
-    }
-
     public override async Task LoadInput() => _input = (await File.ReadAllLinesAsync(InputFilePath.FullPath)).Select(int.Parse).ToList();
 
     public override ValueTask<string> Solve_1() => new(Part1_Linq());

@@ -4,10 +4,6 @@ public class Day05 : BaseDay
 {
     private List<int> _input = new();
 
-    public Day05(IEnvironment environment, IFileSystem fileSystem) : base(environment, fileSystem)
-    {
-    }
-
     public override async Task LoadInput() => _input = (await File.ReadAllLinesAsync(InputFilePath.FullPath))
         .Select(ParseSeatNumber)
         .ToList();

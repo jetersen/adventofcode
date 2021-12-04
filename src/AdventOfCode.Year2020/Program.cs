@@ -1,1 +1,1 @@
-﻿await BaseProgram.RunSolver(args).ConfigureAwait(false);
+﻿return await BaseProgram.RunSolver(args).ConfigureAwait(false);

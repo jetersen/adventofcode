@@ -1,0 +1,66 @@
+name: Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  tests:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup DotNet 6
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: |
+            6.0.x
+
+      - name: DotNet restore
+        run: dotnet restore
+
+      - name: DotNet test
+        run: dotnet test --configuration Release
+
+  run2020:
+    needs:
+      - tests
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup DotNet 6
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: |
+            6.0.x
+
+      - name: DotNet restore
+        run: dotnet restore
+
+      - name: DotNet run
+        run: dotnet run --project .\src\AdventOfCode.Year2020\ --configuration Release -- all
+
+  run2021:
+    needs:
+      - tests
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup DotNet 6
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: |
+            6.0.x
+
+      - name: DotNet restore
+        run: dotnet restore
+
+      - name: DotNet run
+        run: dotnet run --project .\src\AdventOfCode.Year2021\ --configuration Release -- all

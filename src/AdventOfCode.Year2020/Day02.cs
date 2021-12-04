@@ -6,10 +6,6 @@ public sealed class Day02 : BaseDay
 
     private static readonly Regex Regex = new(@"(?<min>\d+)-(?<max>\d+) (?<character>\w): (?<password>\w+)");
 
-    public Day02(IEnvironment environment, IFileSystem fileSystem) : base(environment, fileSystem)
-    {
-    }
-
     public override async Task LoadInput() => _input = (await File.ReadAllLinesAsync(InputFilePath.FullPath)).ToList();
 
     public static (string password, PasswordPolicy policy) ParseInput(string input)

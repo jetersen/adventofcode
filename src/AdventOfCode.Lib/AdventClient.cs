@@ -8,28 +8,23 @@ public interface IAdventClient
 public class AdventClient : IAdventClient
 {
     private readonly HttpClient _client;
-    private readonly IEnvironment _environment;
-    private readonly IFileSystem _fileSystem;
 
-    public AdventClient(HttpClient client, IEnvironment environment, IFileSystem fileSystem)
+    public AdventClient(HttpClient client)
     {
         _client = client;
-        _environment = environment;
-        _fileSystem = fileSystem;
     }
 
     private static string InputUrl(uint year, uint day) => $"{year}/day/{day}/input";
 
     public async Task FetchInput(uint year, uint day, FilePath path)
     {
-        var file = _fileSystem.GetFile(path);
-        if (file.Exists) return;
+        if (File.Exists(path.FullPath)) return;
 
-        var directory = _fileSystem.GetDirectory(path.GetDirectory());
-        if (!directory.Exists) directory.Create();
+        var directory = path.GetDirectory();
+        if (!Directory.Exists(directory.FullPath)) Directory.CreateDirectory(directory.FullPath);
 
         var stream = await _client.GetStreamAsync(InputUrl(year, day)).ConfigureAwait(false);
-        var fileStream = file.OpenWrite();
+        var fileStream = File.OpenWrite(path.FullPath);
         await using var _ = fileStream.ConfigureAwait(false);
         await stream.CopyToAsync(fileStream).ConfigureAwait(false);
     }
