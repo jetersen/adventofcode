@@ -19,7 +19,7 @@ public sealed class Day04 : BaseDay
 
     private static BingoBoard ParseBoard(string[] arg) => new(string.Join(' ', arg).Split(' ', StringSplitOptions.RemoveEmptyEntries).Select(Int32.Parse).ToArray());
 
-    public override ValueTask<string> Solve_1()
+    public override ValueTask<string> Part1()
     {
         foreach (var number in _numbers)
         {
@@ -35,7 +35,7 @@ public sealed class Day04 : BaseDay
         return new();
     }
 
-    public override ValueTask<string> Solve_2()
+    public override ValueTask<string> Part2()
     {
         var lastWinner = 0;
         foreach (var number in _numbers)

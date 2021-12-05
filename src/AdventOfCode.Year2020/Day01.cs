@@ -6,9 +6,9 @@ public sealed class Day01 : BaseDay
 
     public override async Task LoadInput() => _input = (await File.ReadAllLinesAsync(InputFilePath.FullPath)).Select(int.Parse).ToList();
 
-    public override ValueTask<string> Solve_1() => new(Part1_Linq());
+    public override ValueTask<string> Part1() => new(Part1_Linq());
 
-    public override ValueTask<string> Solve_2() => new(Part2_FastLinq());
+    public override ValueTask<string> Part2() => new(Part2_FastLinq());
 
     internal string Part1_Linq() => _input
         .SelectMany(_ => _input, (x, y) => new { x, y })

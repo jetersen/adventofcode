@@ -6,12 +6,12 @@ public sealed class Day01 : BaseDay
 
     public override async Task LoadInput() => _input = (await File.ReadAllLinesAsync(InputFilePath.FullPath)).Select(int.Parse).ToArray();
 
-    public override ValueTask<string> Solve_1()
+    public override ValueTask<string> Part1()
     {
         return Solve(1);
     }
 
-    public override ValueTask<string> Solve_2()
+    public override ValueTask<string> Part2()
     {
         return Solve(3);
     }

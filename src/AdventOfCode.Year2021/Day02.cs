@@ -13,7 +13,7 @@ public sealed class Day02 : BaseDay
         return new(arg[0], int.Parse(arg[^1..]));
     }
 
-    public override ValueTask<string> Solve_1()
+    public override ValueTask<string> Part1()
     {
         var position = 0;
         var depth = 0;
@@ -37,7 +37,7 @@ public sealed class Day02 : BaseDay
         return new($"{position * depth}");
     }
 
-    public override ValueTask<string> Solve_2()
+    public override ValueTask<string> Part2()
     {
         var position = 0;
         var depth = 0;

@@ -36,7 +36,7 @@ public class Solver
 
     /// <summary>
     /// Solves a problem.
-    /// It also prints the elapsed time in <see cref="BaseProblem.Solve_1"/> and <see cref="BaseProblem.Solve_2"/> methods.
+    /// It also prints the elapsed time in <see cref="BaseProblem.Part1"/> and <see cref="BaseProblem.Part2"/> methods.
     /// </summary>
     /// <typeparam name="TProblem"></typeparam>
     public Task Solve<TProblem>()
@@ -61,26 +61,26 @@ public class Solver
 
     /// <summary>
     /// Solves last problem.
-    /// It also prints the elapsed time in <see cref="BaseProblem.Solve_1"/> and <see cref="BaseProblem.Solve_2"/> methods.
+    /// It also prints the elapsed time in <see cref="BaseProblem.Part1"/> and <see cref="BaseProblem.Part2"/> methods.
     /// </summary>
     /// <param name="clearConsole"></param>
     public Task SolveLast(bool clearConsole = true) => SolveProblem(_baseProblems.Last());
 
     /// <summary>
     /// Solves the provided problems.
-    /// It also prints the elapsed time in <see cref="BaseProblem.Solve_1"/> and <see cref="BaseProblem.Solve_2"/> methods.
+    /// It also prints the elapsed time in <see cref="BaseProblem.Part1"/> and <see cref="BaseProblem.Part2"/> methods.
     /// </summary>
     public async Task Solve(params Type[] problems) => await Solve(problems.AsEnumerable());
 
     /// <summary>
     /// Solves the provided problems.
-    /// It also prints the elapsed time in <see cref="BaseProblem.Solve_1"/> and <see cref="BaseProblem.Solve_2"/> methods.
+    /// It also prints the elapsed time in <see cref="BaseProblem.Part1"/> and <see cref="BaseProblem.Part2"/> methods.
     /// </summary>
     public async Task Solve(IEnumerable<Type> problems) => await SolveProblems(_baseProblems);
 
     /// <summary>
     /// Solves all problems in the assembly.
-    /// It also prints the elapsed time in <see cref="BaseProblem.Solve_1"/> and <see cref="BaseProblem.Solve_2"/> methods.
+    /// It also prints the elapsed time in <see cref="BaseProblem.Part1"/> and <see cref="BaseProblem.Part2"/> methods.
     /// </summary>
     public async Task SolveAll() => await SolveProblems(_baseProblems);
 
@@ -134,8 +134,8 @@ public class Solver
         try
         {
             Func<ValueTask<string>> solve = isPart1
-                ? problem.Solve_1
-                : problem.Solve_2;
+                ? problem.Part1
+                : problem.Part2;
 
             stopwatch.Start();
             solution = await solve();

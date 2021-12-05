@@ -36,11 +36,6 @@ public abstract class BaseProblem
             : default;
     }
 
-    /// <summary>
-    /// Expected input file path.
-    /// By default, <see cref="InputFileDirPath"/>/<see cref="CalculateIndex"/>.<see cref="InputFileExtension"/>.
-    /// Overriding it makes <see cref="InputFileDirPath"/>, <see cref="InputFileExtension"/> and <see cref="CalculateIndex"/> irrelevant
-    /// </summary>
     public virtual FilePath InputFilePath { get; }
     public virtual uint Index { get; }
 
@@ -48,7 +43,7 @@ public abstract class BaseProblem
 
     public abstract Task LoadInput();
 
-    public abstract ValueTask<string> Solve_1();
+    public abstract ValueTask<string> Part1();
 
-    public abstract ValueTask<string> Solve_2();
+    public abstract ValueTask<string> Part2();
 }

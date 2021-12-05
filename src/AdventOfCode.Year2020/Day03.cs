@@ -6,13 +6,13 @@ public class Day03 : BaseDay
 
     public override async Task LoadInput() => _input = (await File.ReadAllLinesAsync(InputFilePath.FullPath)).ToList();
 
-    public override ValueTask<string> Solve_1() => new(TransverseMap(
+    public override ValueTask<string> Part1() => new(TransverseMap(
             new[] {(x: 3, y: 1)},
             ch => ch == '#')
         .Single()
         .ToString());
 
-    public override ValueTask<string> Solve_2() => new(TransverseMap(
+    public override ValueTask<string> Part2() => new(TransverseMap(
             new[] {(x: 1, y: 1), (x: 3, y: 1), (x: 5, y: 1), (x: 7, y: 1), (x: 1, y: 2)},
             ch => ch == '#')
         .Aggregate(1L, (total, n) => total * n)

@@ -8,7 +8,7 @@ public sealed class Day03 : BaseDay
 
     public override async Task LoadInput() => _input = await File.ReadAllLinesAsync(InputFilePath.FullPath);
 
-    public override ValueTask<string> Solve_1()
+    public override ValueTask<string> Part1()
     {
         var size = _input[0].Length;
         var halfInputLength = _input.Length / 2;
@@ -32,7 +32,7 @@ public sealed class Day03 : BaseDay
         return new($"{gamma * epsilon}");
     }
 
-    public override ValueTask<string> Solve_2()
+    public override ValueTask<string> Part2()
     {
         var oxygenGeneratorRating = FindRating(_input, true);
         var co2ScrubberRating = FindRating(_input, false);

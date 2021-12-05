@@ -8,9 +8,9 @@ public class Day05 : BaseDay
         .Select(ParseSeatNumber)
         .ToList();
 
-    public override ValueTask<string> Solve_1() => new(_input.Max().ToString());
+    public override ValueTask<string> Part1() => new(_input.Max().ToString());
 
-    public override ValueTask<string> Solve_2() => new(Enumerable
+    public override ValueTask<string> Part2() => new(Enumerable
         .Range(0, _input.Max())
         .Except(_input)
         .Max()
