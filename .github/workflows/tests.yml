@@ -43,7 +43,7 @@ jobs:
         run: dotnet restore
 
       - name: DotNet run
-        run: dotnet run --project .\src\AdventOfCode.Year2020\ --configuration Release -- all
+        run: dotnet run --project ./src/AdventOfCode.Year2020 --configuration Release -- all
 
   run2021:
     needs:
@@ -63,4 +63,4 @@ jobs:
         run: dotnet restore
 
       - name: DotNet run
-        run: dotnet run --project .\src\AdventOfCode.Year2021\ --configuration Release -- all
+        run: dotnet run --project ./src/AdventOfCode.Year2021 --configuration Release -- all
