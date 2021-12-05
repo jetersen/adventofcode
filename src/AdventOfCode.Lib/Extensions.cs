@@ -22,7 +22,7 @@ public static class Extensions
 
     public static string FindDirectory(string pattern, int depth)
     {
-        var currentDirectory = new System.IO.DirectoryInfo(AppContext.BaseDirectory);
+        var currentDirectory = new DirectoryInfo(AppContext.BaseDirectory);
         var baseDirectory = currentDirectory.FullName;
         var count = depth;
         string? str = SearchPaths();
@@ -32,7 +32,7 @@ public static class Extensions
         {
             for (; currentDirectory != null && count > 0; currentDirectory = currentDirectory.Parent)
             {
-                var files = currentDirectory.GetFiles(pattern, System.IO.SearchOption.TopDirectoryOnly);
+                var files = currentDirectory.GetFiles(pattern, SearchOption.TopDirectoryOnly);
                 if (files.Length > 0)
                     return currentDirectory.FullName;
                 count--;

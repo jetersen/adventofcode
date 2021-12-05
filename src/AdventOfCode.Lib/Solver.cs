@@ -25,7 +25,7 @@ public class Solver
     /// </summary>
     public static string? ElapsedTimeFormatSpecifier { get; set; } = null;
 
-    private static readonly bool IsInteractiveEnvironment = System.Environment.UserInteractive && !Console.IsOutputRedirected;
+    private static readonly bool IsInteractiveEnvironment = Environment.UserInteractive && !Console.IsOutputRedirected;
 
     private static Table GetTable() => new Table()
         .AddColumns("[bold white]Day[/]", "[bold white]Part[/]", "[bold white]Solution[/]", "[bold white]Elapsed time[/]")
@@ -146,7 +146,7 @@ public class Solver
         }
         catch (Exception e)
         {
-            solution = e.Message + System.Environment.NewLine + e.StackTrace;
+            solution = e.Message + Environment.NewLine + e.StackTrace;
         }
         finally
         {

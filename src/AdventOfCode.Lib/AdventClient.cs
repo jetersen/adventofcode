@@ -18,6 +18,7 @@ public class AdventClient : IAdventClient
 
     public async Task FetchInput(uint year, uint day, FilePath path)
     {
+        if (Constants.SessionCookie is "") return;
         if (File.Exists(path.FullPath)) return;
 
         var directory = path.GetDirectory();

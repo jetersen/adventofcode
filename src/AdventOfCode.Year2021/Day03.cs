@@ -1,6 +1,4 @@
-﻿using System.Text;
-
-namespace AdventOfCode.Year2021;
+﻿namespace AdventOfCode.Year2021;
 
 public sealed class Day03 : BaseDay
 {

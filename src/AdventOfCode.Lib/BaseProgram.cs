@@ -18,7 +18,7 @@ public static class BaseProgram
     private static void SetWorkingDirectory()
     {
         var workingDirectory = Extensions.FindDirectory("*.csproj", 4);
-        System.IO.Directory.SetCurrentDirectory(workingDirectory);
+        Directory.SetCurrentDirectory(workingDirectory);
     }
 
     public static async Task<int> RunSolver(string[] args)
