@@ -8,6 +8,7 @@ on:
 
 jobs:
   tests:
+    name: Run tests
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout
@@ -26,6 +27,7 @@ jobs:
         run: dotnet test --configuration Release
 
   run2020:
+    name: Run 2020
     needs:
       - tests
     runs-on: ubuntu-20.04
@@ -46,6 +48,7 @@ jobs:
         run: dotnet run --project ./src/AdventOfCode.Year2020 --configuration Release -- all
 
   run2021:
+    name: Run 2021
     needs:
       - tests
     runs-on: ubuntu-20.04
