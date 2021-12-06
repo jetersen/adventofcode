@@ -48,6 +48,13 @@ public sealed class Day05 : BaseDay
         return new($"{numberOfIntersections}");
     }
 
+    public override ValueTask<string> Part2()
+    {
+        var numberOfIntersections = NumberOfIntersections(false);
+
+        return new($"{numberOfIntersections}");
+    }
+
     private int NumberOfIntersections(bool skipDiagonals)
     {
         var intersections = new Dictionary<(int x, int y), int>();
@@ -61,12 +68,5 @@ public sealed class Day05 : BaseDay
 
         var numberOfIntersections = intersections.Count(kvp => kvp.Value > 1);
         return numberOfIntersections;
-    }
-
-    public override ValueTask<string> Part2()
-    {
-        var numberOfIntersections = NumberOfIntersections(false);
-
-        return new($"{numberOfIntersections}");
     }
 }
