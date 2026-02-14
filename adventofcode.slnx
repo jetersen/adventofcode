@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/AdventOfCode.Lib/AdventOfCode.Lib.csproj" />
+    <Project Path="src/AdventOfCode.SourceGenerator/AdventOfCode.SourceGenerator.csproj" />
+    <Project Path="src\AdventOfCode.2025\AdventOfCode.2025.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/AdventOfCode.2025.Tests/AdventOfCode.2025.Tests.csproj" />
+  </Folder>
+</Solution>
